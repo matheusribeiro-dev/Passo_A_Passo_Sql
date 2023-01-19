@@ -1,0 +1,583 @@
+/*(Para maior aproveitamento abra o arquivo com Notepad++ e selecione a linguagem SQL)*/
+								
+								
+								/*GUIA SQL DO BASICO AO AVANÇADO*by:Matheus Ribeiro*/
+								
+	/*PALAVRAS CHAVES PARA PESQUISA*/
+	BETWEEN, LIKE, IN, AND, OR, NOT, DISTINCT, ORDER BY, TRUNCATE, ASC, DESC, LIMIT, MIN, MAX, COUNT, AVG, SUM,
+	NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, INDEX, INNER JOIN, LEFT JOIN, RIGHT JOIN, UNION, UNION ALL,
+	GROUP BY, SUBQUERY, HAVING, EXISTS, ANY, CHAR_LENGTH, CONCAT, CONCAT_WS, FORMAT, INSTR, LCASE, LEFT, RIGHT
+	REPLACE, SUBSTR, UCASE, CEIL, FLOOR, ADDDATE, DATEDIFF, ADDTIME, DATE_FORMAT, DAY, DAYOFWEEK, DAYOFYEAR,
+	WEEKOFYEAR, MONTH, YEAR, One to One, One to Many, Many to Many
+	
+	/*COMENTARIO*/
+	*PARA COMENTAR UMA LINHA UTILIZA -- 
+	*PARA COMENTAR VARIAS LINHAS UTILIZA O /* */	
+	
+	/*Comparação: (>,<,>=,<=,=)*/
+	*É O FILTRO ONDE PASSAMOS O QUE QUEREMOS RECEBER
+	SELECT * FROM (nome da tabela) WHERE (campo da tabela) (condição de comparação) "(valor desejado)";
+	
+EX: SELECT * FROM salarios WHERE salario <= 65000;
+	retorna os dados de salarios menores que 65000 
+
+	/*BETWEEN*/
+	*SELEÇÃO ENTRE UM INTERVALO
+	SELECT * FROM (nome da tabela) WHERE (campo da tabela) BETWEEN "(valor desejado)" AND "(valor desejado)";
+	
+EX: SELECT * FROM dept_emp WHERE dept_no BETWEEN 'd003' AND 'd005';
+	aqui me retorna os departamentos entre  d003 e d005
+
+	/*LIKE*/
+	*SELEÇÃO POR MEIO DE ALGUM PADRÃO
+	SELECT * FROM (nome da tabela) WHERE (coluna da tabela) LIKE "%(valor desejado)%";
+	(% o porcento ele faz uma pesquisa com o que tem na frente e trAS do valor pedido) 
+	
+EX:	SELECT * FROM funcionario WHERE nome LIKE "%ma%";  variacoes(%ma , ma%, ma)
+	retorna os funcionarios que tem ma no meio no inicio e no fim da coluna nome 
+
+	/*IN*/
+	*SELECAO ENTRE UM CONJUNTO DE VALORES ESPECIFICOS
+	SELECT * FROM (nome da tabela) WHERE  (coluna da tabela) IN(('valor desejado');
+	
+EX:	SELECT * FROM dept_emp WHERE numeroo_dept IN('d004','d005');
+	me retorna so os numeros dos  departamentos pASsados no vlaor desejado
+
+										/*OPERADORES LOGICOS*/
+	*PODE SER COMBINADO A CLÁUSULA WHERE COM OPERADORES LOGICOS OS QUAIS SAO 
+
+	/*AND*/
+	*DUAS CONTIÇOES TEM QUE SER VERDADEIRAS SE NAO NADA É RETORNADO
+	SELECT * FROM (nome da tabela) WHERE (campo da tabela) (condição de comparação(>,<,>=,<=,=))("valor desejdo") AND (campo da tabela) (condição de comparação(>,<,>=,<=,=)) "(valor desejdo)";
+	
+EX: SELECT * FROM salarios WHERE salario > 145000 AND data > "1999-12-12" AND id > 12800;(nesse exemplo foram concatnados mais de um and)
+	aqui me retorna só quem tem o salario maior que 145000 + quem tem o ano maior que "1999-12-12" e o id maior que 12800...
+
+	/*OR*/
+	*AQUI PODE SER UMA OU OUTRA VERDEIRA
+	SELECT * FROM (nome da tabela) WHERE (campo da tabela) (condição de comparação(>,<,>=,<=,=)) ("valor desejdo") OR (campo da tabela) (condição de comparação(>,<,>=,<=,=)) "(valor desejdo)";
+	
+EX: SELECT * FROM cidade WHERE id = 3 OR nome = "Urubici";
+	aqui me retorna os dados do id que for igual a 3 e o nome que estiver com "urubici"
+
+	/*NOT*/
+	*INVERTE A CLÁUSULA...OU SEJA RETORNA MENOS OS DADOS QUE EU PASSAR DEPOIS DO WHERE
+	SELECT * FROM (nome da tabela) WHERE NOT  (campo da tabela) (condição de comparação(>,<,>=,<=,=)) ("valor desejdo");
+	
+EX: SELECT * FROM cidade WHERE NOT nome = "Içara" AND NOT estado_id = 2;(nesse exemplo conctenei um and)
+	retorna todos os dados exetos o que tenha o nome de Içara e os que estao com o estado_id = 2
+
+	/*WHERE*/
+	*É CONDIÇÃO DA PESQUISA
+	SELECT * FROM (nome da tabela) WHERE (coluna da tabela) = "(valor desejado)";
+	
+EX: SELECT * FROM funcionarios WHERE id = "10695";
+	retorna um funcionario especifico
+
+	/*DISTINCT*/
+	*SELECIONA APENAS AS VARIAÇÕES DE VALORES OU SEJA NAO REPETE OS VALORES
+	SELECT DISTINCT (campo da tabela) FROM (nome da tabela);
+	
+EX: SELECT DISTINCT cargo FROM cargos;
+	retorna os dados dos cargos cadAStrados
+
+	/*ORDER BY*/
+	*ORDENA O RESULTADOS DA TABELE É UTILIZADO DEPOIS DO WHERE 
+	
+	/*TRUNCATE*/
+	*DELETA TODOS OS DADOS DA TABELA 
+	TRUNCATE TABLE (nome da tabela);
+EX: TRUNCATE TABLE cidade;
+
+	/*ASC*/
+	*ASCENDENTE
+	SELECT * FROM (nome da tabela) ORDER BY (campo da tabela) ASC;
+	
+EX: SELECT * FROM cidade ORDER BY  nome ASC;
+
+	/*DESC*/
+	*DESCENDENTE 
+	SELECT * FROM (nome da tabela) ORDER BY (campo da tabela) DESC;
+	
+EX: SELECT * FROM cidade ORDER BY  nome DESC;
+
+	/*LIMIT*/
+	*TRAS SOMENTE ATÉ O LIMITE QUE O SELECT PASSA
+	SELECT * FROM (nome da tabela) ORDER BY (campo da tabela) DESC LIMIT ("valor desejado");
+	
+EX: SELECT * FROM salarios ORDER BY salario DESC LIMIT 10;
+	retorna em ordem descrecente porem so 10
+
+										/*FUNÇÕES NO SQL*/
+
+	/*MIN*/
+	*VAI RETORNAR UM MENOR VAALOR DE UM COLUNA ESPECIFICA
+	SELECT MIN((coluna da tabela)) AS (nome da coluna que deseja que retorne) FROM (nome da tabela);('AS ' no resultado o campo vai ter o nome que definir depois do AS.)
+	
+EX:	SELECT MIN(salario) AS menor_salario FROM salarios;
+	retornou o menor salario da minha tabela....
+
+	/*MAX*/
+	*VAI RETORNAR O MAIOR VAALOR DE UM COLUNA ESPECIFICA
+	SELECT MAX((coluna da tabela)) AS (nome da coluna que deseja que retorne) FROM (nome da tabela);('AS ' no resultado o campo vai ter o nome que definir depois do AS.)
+
+EX:	SELECT MAX(salario) AS maior_salario FROM salarios;
+	retornou o maior salario da minha tabela....
+
+	/*COUNT*/
+	NUMERO DE VALORES QUE COMBINAM COM ALGUM CRITERIO
+	SELECT COUNT(*) AS (nome da coluna que deseja que retorne) FROM (nome da tabela) WHERE (coluna da tabela) (condição de comparação(>,<,>=,<=,=)) ("valor desejdo");
+
+EX: SELECT COUNT(*) AS mulheres FROM funcionariAS WHERE sexo = "F";
+	retorna o numero de funcionariAS mulheres... no cASo que tenham o cadAStro 'F'
+
+	/*AVG*/
+	*MEDIA DE UMA DETERMINADA COLUNA 
+	SELECT AVG((coluna da tabela)) FROM (nome da tabela);
+
+EX:	SELECT AVG(salario) AS media_salarial FROM salarios;
+	retorna a media total da tabela
+
+											/*CONSTRAINT*/
+	
+	/*NOT NULL*/
+	*GERALMENTE INSERIDA JA NA CRIACAO DA TABELA NAO DEIXA VALORES NULOS
+EX:	CREATE TABLE pessoAS (
+	nome varchar(30) NOT NULL,
+    idade INT NOT NULL
+    );
+	nessa criacao temos dois campos contendo o not null
+
+	/*UNIQUE*/
+	*UMA COLUNA QUE TENHA UNIQUE NAO DEIXA INCERIR DOIS DADOS IGUAIS NA COLUNA EX CPF
+EX:	CREATE TABLE pessoAS (
+	nome varchar(30) NOT NULL,
+    idade INT NOT NULL,
+    cpf VARCHAR(14) not null unique
+    );
+	nesse exemplo a coluna cpf lem de ser not nul tem a constraint unique para que nao se repita o cpf
+
+	/*PRIMARY KEY*/
+	*CRIA UMA CHAVE PRIMARIA  GERALMENTE É O ID
+EX:	CREATE TABLE produtos (
+	id BIGINT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255),
+    valor DOUBLE NOT NULL,
+    PRIMARY KEY (id)
+    );
+	aqui percebemos que id é a nossa chave primaria e com aquele auto_increment ela segue uma seguencia de numeros sem repetilos
+
+	/*FOREIGN KEY*/
+	*CRIA UMA LIGAÇÃO COM OUTRA TABELA 
+EX: CREATE TABLE endereco (
+	id BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    rua varchar(100),
+    numero varchar(10),
+    pessoa_id BIGINT NOT NULL,
+    FOREIGN KEY (pessoa_id) REFERENCES pessoAS(id)
+	);
+	aqui referencia a tapela pessoAS por pessoa_id
+
+	/*INDEX*/
+	*ADICIONA UM INCICE A COLUNA 
+	CREATE INDEX (nome do index) ON (nome da tabela)((coluna da tabela))
+	
+EX:	CREATE INDEX index_nome ON pessoAS(nome);(em uma tabela existente)
+
+	*REMOVENDO O INDEX 
+	DROP INDEX (nome do index) ON (nome da tabela);
+	DROP INDEX index_nome ON pessoAS;
+
+											/*JOIN*/
+	*CONSULTAS QUE ENVOLVE DUAS OU MAIS TABELAS 
+	
+	/*INNER JOIN*/
+	*ME TRAS SOMENTE O QUE ESTA DENTRO
+	SELECT (nome da tabela1).(coluna da tabela1), (nome da tabela2).(coluna da tabela2) **pode ser mais de um campo da tabela
+	FROM (nome da tabela1)
+    INNER JOIN (nome da tabela2)
+    ON (nome da tabela1).(coluna da tabela1 de primary key) = (nome da tabela2).(coluna da tabela2 de foregin key);
+	
+EX:	SELECT funcionarios.nome, salarios.salario
+	FROM funcionarios
+    INNER JOIN salarios
+    ON funcionarios.funcionario_id = salarios.funcionario_id;
+	
+	/*LEFT JOIN*/
+	*ME TRAS OS DADOS DA TABELA MESMO QUE NA OUTRA NAO TENHA RELACAO 
+	SELECT (nome da tabela1).(coluna da tabela1), (nome da tabela2).(coluna da tabela2)
+    FROM (nome da tabela1)
+    LEFT JOIN (nome da tabela2)
+    ON (nome da tabela1).(coluna da tabela1 de primary key) = (nome da tabela2).(coluna da tabela2 de foregin key);
+	
+EX: SELECT pessoAS.id, pessoAS.nome , endereco.rua, endereco.numero
+    FROM pessoAS
+    LEFT JOIN endereco
+    ON pessoAS.id = endereco.pessoa_id;
+	aqui me retorna o id + o nome + de todos os cadAStros da tabela pessoAS e da tabela endereço me trAS a rua e o numero 
+	se por um exemplo o cadAStro de id 2 nao tiver um endereco cadAStrado.. usando o LEFT JOIN ele vai trazer mesmo ASsim so 
+	com os campos nulos... se fosse inner join ele traria so o de id 1 pq so ele teria cadAStro
+
+	/*RIGHT JOIN*/
+	*AO CONTRARIO DO LEFT JOIN 
+
+										/*OPERADORES SUBQUERY*/
+			
+	/*UNION*/
+	*TRAS O RESULTADO DE DOIS SELECTS SEM REDUNDANCIA OU SEJA SEM VALORES DUPLICADOS 
+	SELECT (coluna da tabela1) FROM (nome da tabela1)
+	UNION SELECT (coluna da tabela2) FROM (nome da tabela2);
+	
+EX: SELECT numero_dept FROM departamentos
+	UNION SELECT numero_dept FROM departamentos_empresa;
+	me retorna o numero de departamenento porem nao duplicados...
+
+	/*UNION ALL*/
+	*AQUI ME TRAS DADOS DUPLICADOS
+	SELECT (coluna da tabela1) FROM (nome da tabela1)
+	UNION SELECT (coluna da tabela2) FROM (nome da tabela2);
+
+EX: SELECT dept_no FROM departments
+	UNION ALL SELECT dept_no FROM dept_emp;
+
+	/*GROUP BY*/
+	*AGRUPA DADOS
+	SELECT (coluna da ta7bela), COUNT((coluna da tabela)) AS '(nome da coluna que deseja que retorne)'
+	FROM (nome da tabela)
+	GROUP BY (coluna da tabela);
+
+EX: SELECT genero, COUNT(genero) AS 'Qtd por gernero'
+	FROM funcionarios 
+	GROUP BY genero;
+	aqui me retorna um resultado onde ele faz a contadem de todos que sao igual a M e todos que sao igual a F
+	ai com o group by ele me mostra esses dados separdos, no cASo M = 'valor' e F = 'valor'
+
+	/*HAVING*/
+	*SEMALHANTE AO WHERE POREM AGREGAMOS AS FUNÇOES
+	SELECT cargo, COUNT(cargo) AS 'cargos'
+	FROM cargos
+	GROUP BY cargo
+	HAVING COUNT(cargo) > 100000;
+	aqui me retorna somento os cargos que tenham mais de 100000 mil e grupa se tiver mais de um!!(com o WHERE n daria de fazer)
+	
+	/*SUBQUERY*/
+	*É UMA QUERY DENTRO DE OUTRA
+	SELECT (coluna da tabela), (coluna da tabela) ,(
+		SELECT SUM((coluna da tabela))
+        FROM (nome da tabela2)
+        WHERE (nome da tabela1).(coluna da tabela) = (nome da tabela2).(coluna da tabela)
+	)
+    AS (*NOME QUE QUERIA RETORNAR NA REPRESENTACAO*)
+    FROM (nome da tabela1);
+EX:	SELECT id, nome ,(
+		SELECT SUM(salario)
+        FROM salarios
+        WHERE funcionarios.id = salarios.funcionario_id
+	)
+    AS soma_salario
+    FROM funcionarios;
+	
+	/*EXISTS*/
+	*SE EXISTE DETERMINADO DADO
+	SELECT (coluna da tabela)(*pode ser mais de uma*)(
+		SELECT sum((coluna da tabela))
+		FROM (nome da tabela2)
+		WHERE (nome da tabela1).(coluna da tabela1) = (nome da tabela2).(coluna da tabela2) 
+	) AS (*NOME QUE QUERIA RETORNAR NA REPRESENTACAO*)
+	FROM (nome da tabela1)
+		WHERE exists(
+			SELECT (coluna da tabela)
+			FROM (nome da tabela2)
+			WHERE (nome da tabela1).(coluna da tabela1) = (nome da tabela2).(coluna da tabela2) 
+			having sum((coluna da tabela)) > 1900000
+		);
+EX:	SELECT id, nome, sobrenome,(
+	SELECT sum(salario)
+	FROM salarios
+    WHERE funcionarios.id = salarios.id
+	) AS soma_salario
+	FROM funcionarios
+		WHERE exists(
+			SELECT salario
+			FROM salarios
+			WHERE funcionarios.id = salarios.id
+			having sum(salario) > 1900000
+    );
+	aqui me retorna somento os salarios acima de 1900000 se existir
+
+	/*ANY*/
+	*RETORNA OS RESULTADOS QUE SAO VERDADEIROS NA SUBQUERY
+	SELECT (coluna da tabela1)
+	FROM (nome da tabela1)
+	WHERE (coluna da tabela1) = any (
+		SELECT (coluna da tabela2)
+		FROM (nome da tabela2)
+		WHERE (coluna da tabela2) >150000
+		);
+		
+EX:	SELECT nome
+	FROM funcionarios
+	WHERE id = any (
+		SELECT id
+		FROM salarios
+		WHERE salario >150000
+		);
+	aqui me retorna somento os nomes dAS pessoAS que recebem acima de 150000
+
+									/*FUNÇOES MAIS AVANÇADAS SOBRE STRINGS*/
+
+	/*CHAR_LENGTH*/
+	*NUMERO DE CARACTERES DE UMA COLUNA
+	SELECT (coluna da tabela), CHAR_LENGTH((coluna da tabela)) AS (*nome na representacao*)
+	FROM (nome da tabela)
+	WHERE CHAR_LENGTH((coluna da tabela)) > 10 ;
+
+EX:	SELECT nome, CHAR_LENGTH(nome) AS qtd_chars FROM ator
+	WHERE CHAR_LENGTH(nome) > 10 ;
+	aqui me retorna somente a o nome dos atores que tem mais de 10 letrAS... essa contagem de letrAS se da pela funcao CHAR_LENGTH
+
+	/*CONCAT*/
+	*JUNTAR 2 OU MAIS STRINGS
+	SELECT CONCAT((coluna da tabela), " (texto desejado)", (coluna da tabela)) AS (*nome na representacao*)
+	FROM (nome da tabela);
+
+EX: SELECT CONCAT(nome, " usa o ", email) AS nome_e_email
+	FROM cad_usuarios;
+	aqui me retorna uma frASe... com o nome + usa o + email 
+
+	/*CONCAT_WS*/
+	*CONCATENA DUAS PU MAIS STRINGS POREM COM UM SEPARADOR COMUM
+	SELECT CONCAT_WS("(separador escolhido)", (coluna da tabela),(coluna da tabela) ) AS (*nome na representacao*)
+	FROM (nome da tabela);
+
+EX:	SELECT CONCAT_WS(",", nome, idade ) AS "separados por virgula"
+	FROM funcionarios;
+	aqui me retorna o nome do funcionario e a idade separados por virgula
+
+	/*FORMAT*/
+	*FORMATA UM NUMERO 
+	SELECT (coluna da tabela), (coluna da tabela), 
+	FORMAT((coluna da tabela), (valor de cASAS decimais que desejar))AS (*nome na representacao*) 
+	FROM (nome da tabela)
+
+EX:	SELECT id, montante, FORMAT(montante, 1)AS arrendondamento FROM pagamentos;
+	aqui me retorna uma coluna com o numero formarado 
+
+	/*INSTR*/
+	*FUNCAO DE BUSCA
+	SELECT (coluna da tabela), INSTR((coluna da tabela), "(o que eu quero achar na coluna)") FROM (nome da tabela);
+
+EX:	SELECT email, INSTR(email, "@") FROM cliente;
+	me trAS a posicao do @ na coluna email
+
+	/*LCASE*/
+	*TRASFORMA TODO O TEXTO PARA LETRAS MINUSCULAS
+	SELECT (coluna da tabela), (coluna da tabela), LCASE(CONCAT((coluna da tabela), " ", (coluna da tabela))) AS (*nome na representacao*) 
+	FROM (nome da tabela)
+
+EX:	SELECT nome, sobrenome, LCASE(CONCAT(nome, " ", sobrenome)) AS nome_completo
+	FROM cliente;
+	aqui com a funcao lcASe me trouxe todos os nomes e sobrenosmes em uma coluna nome_completo porem todos com letrAS minusculAS
+
+	/*LEFT*/
+	*EXTRAI UMA QUANTIDADE DE CARACTERES DE UMA STRINGS
+	SELECT (coluna da tabela), LEFT((coluna da tabela), 8) AS (*nome na representacao*)  
+	FROM (nome da tabela) 
+	WHERE (coluna da tabela) = 1
+
+EX:	SELECT titulo, LEFT(titulo, 8) AS palavra_extraida FROM filme WHERE id = 1
+	aqui me retornou somento o titulo de id 1 retirando 8 caracteres e colocando na coluna palavra_extraida
+
+	/*RIGHT*/
+	*EXTRAI UMA QUANTIDADE DE CARACTERES DE UMA STRINGS
+	SELECT (coluna da tabela), RIGHT((coluna da tabela), 8) AS (*nome na representacao*)  
+	FROM (nome da tabela) 
+
+EX:	SELECT titulo, RIGHT(titulo, 8) AS palavra_extraida FROM filme WHERE id = 1
+	aqui me retornou somento o titulo de id 1 retirando 8 caracteres e colocando na coluna palavra_extraida
+
+
+	/*REPLACE*/
+	*TROCA UMA PARTE DA STRING POR OUTRA
+	SELECT REPLACE((coluna da tabela), "(valor a ser trocado)", "(valor que quero de resultado)" )AS (*nome na representacao*)  
+	FROM (nome da tabela) ;
+
+EX: SELECT REPLACE(nome, "Ação", "Ação & Aventura" )AS nome FROM categoria;
+
+	/*SUBSTR*/
+	*EXTRAI UMA STRING A PARTIR DE DOIS INDICES
+	SELECT (coluna da tabela), SUBSTR((coluna da tabela), (valor 1), (valor 1)) AS (*nome na representacao*)
+	FROM (nome da tabela);
+
+EX: SELECT ultima_atualização, SUBSTR(ultima_atualização, 6, 2) AS mes, 
+	substr(lASt_update, 9, 2) AS dia FROM comprAS;
+	aqui me retorna somente o mes e o dia da tabela comprAS 
+
+	/*UCASE*/
+	*VAI DEIXAR AS LETRAS TODAS MAIUSCULAS
+	SELECT UCASE((coluna da tabela)) AS (*nome na representacao*) FROM (nome da tabela);
+
+EX:	SELECT UCASE(descricao) AS nome_filmes FROM filme;
+	aqui me retorna todos os dados que estavam com letrAS minusculAS em maiusculAS
+
+								/*FUNÇOES MATEMAICAS*/
+					
+	/*CEIL*/
+	*ARREONDA NUMEROS COM BASE NAS CASA DECIMAIS PARA CIMA
+	SELECT (coluna da tabela), CEIL((coluna da tabela)) AS (*nome na representacao*) FROM (nome da tabela);
+	
+EX:	SELECT valor, CEIL(valor) AS valor_arredondado_para_cima FROM pagamentos;
+	aqui me retorna os todos os valores arredondados para cima
+	
+	/*FLOOR*/
+	*ARREONDA NUMEROS COM BASE NAS CASA DECIMAIS PARA BAIXO
+	SELECT (coluna da tabela), FLOOR((coluna da tabela)) AS valor_arredondado_para_baixo FROM (nome da tabela);
+	
+EX:	SELECT valor, FLOOR(valor) AS valor_arredondado_para_baixo FROM pagamentos;
+	aqui me retorna os todos os valores arredondados para baixo
+	
+	/*COUNT*/
+	*CONTA O NUMERO DE OCORRENCIAS DE UMA DETERMINADA COLUNA
+	SELECT COUNT((coluna da tabela) ou *) FROM (nome da tabela);
+
+EX: SELECT COUNT(*) FROM pagamentos;
+	aqui me retorna a quantidade de dados na tabela pagamentos
+	
+	/*MAX*/
+	*RETORNA O MAIOR VALOR DE UMA COLUNA 
+	SELECT MAX((coluna da tabela)) AS (*nome na representacao*) FROM (nome da tabela);
+	
+EX:	SELECT MAX(idade) AS maior_idade FROM aluno;
+	aqui retorna a maior idade nessa coluna 
+	
+	/*MIN*/
+	*RETORNA O MENOR VALOR DE UMA COLUNA 
+	SELECT MIN((coluna da tabela)) AS (*nome na representacao*) FROM (nome da tabela);
+	
+EX:	SELECT MIN(idade) AS menor_idade FROM aluno;
+	aqui retorna a menor idade nessa coluna 
+	
+	/*SUM*/
+	*RETORNA A SOMA DOS VALORES DE UMA COLUNA 
+	SELECT SUM((coluna da tabela)) AS (*nome na representacao*) FROM (nome da tabela);
+	
+EX:	SELECT SUM(salario) AS soma_salarios FROM funcionarios;
+	aqui retorna a soma dos salarios dos funcionarios;
+	
+	/*ADDDATE*/
+	*ADICIONA OU REMOVE UMA QUANTIDADE DE HORAS E DIAS
+	SELECT (coluna da tabela), ADDDATE((coluna da tabela), "(mudanca que quer)") AS (*nome na representacao*) FROM (nome da tabela);
+	
+EX:	SELECT last_update, ADDDATE(last_update, "5 DAYS") AS data_atualizada,
+	ADDDATE(last_update, INTERVAL 2 MONTH) AS mes_atualizado,
+	ADDDATE(last_update, INTERVAL -3 YEAR ) AS ano_atualizado
+	FROM actor;
+	aqui nesse select esta sendo alterado a data almentando 5 dias... o mes almentando 2 meses e o ano diminuindo 3 anos
+	
+	/*DATEDIFF*/
+	*CALCUA A DIFERENCA DE DUAS DATAS 
+	SELECT DATEDIFF((coluna da tabela),(coluna da tabela)) FROM (nome da tabela);
+	
+EX: SELECT DATEDIFF(data_criacao,data_atualizacao) FROM projetos;
+	aqui me retorna o numero de dias da diferenca entre data_criacao e data_atualizacao
+	
+	/*ADDTIME*/
+	*ADICIONA OU REMOVE UM TEMPO A UMA DATA
+	SELECT *, ADDTIME((coluna da tabela), (valor que quer adicionar a mais)) FROM (nome da tabela);
+	
+EX: SELECT *, ADDTIME(data_atualizacao, "03:00:00") FROM projetos;
+	aqui me retorna 3 horas a mais 
+	
+	/*DATE_FORMAT*/
+	*FORMATA A DATA PARA EXIBIR PRO USUARIO
+	SELECT DATE_FORMAT((coluna da tabela), "%d/%m/%Y") AS (*nome na representacao*) FROM (nome da tabela); 
+	
+EX: SELECT DATE_FORMAT(data_atualizacao, "%d/%m/%Y") AS data_formatada FROM projetos; 
+	aqui retorna a data formatada no padrao de uso no brasil
+	
+	/*DAY*/
+	*RETORNA O DIA DA DATA UTILIZADO NA FUNCAO
+	SELECT DAY((coluna da tabela)) AS (*nome na representacao*) FROM (nome da tabela);
+	
+EX: SELECT data_atualizacao, DAY(data_atualizacao) AS dia FROM projetos;
+	aqui me retorna o dia exato
+	
+	/*DAYOFWEEK*/
+	*RETORNA O DIA DA SEMANA DE UMA DETERMINADA DATA EM NUMERO INICIANDO DOMINGO COMO DIA 1
+	SELECT DAYOFWEEK((coluna da tabela)) FROM (nome da tabela);
+
+EX:	SELECT DAYOFWEEK(data_atualizacao) FROM projetos;
+	aqui retorna o dia da semana em numero 
+	
+	/*DAYOFYEAR*/
+	*RETORNA O DIA DO ANO EM UMA DETERMINADA DATA DE 1 A 365
+	SELECT DAYOFYEAR((coluna da tabela)) FROM (nome da tabela);
+
+EX:	SELECT DAYOFYEAR(data_atualizacao) FROM projetos;
+	aqui me retorna o dia entre 1 a 365 referente a data que esta no argumento
+	
+	/*WEEKOFYEAR*/
+	*RETORNA A SEMANA DO ANO EM UMA DETERMINADA DATA DE 1 A 42
+	SELECT WEEKOFYEAR((coluna da tabela)) FROM (nome da tabela);
+
+EX:	SELECT WEEKOFYEAR(data_atualizacao) FROM projetos;
+	aqui me retorna a semana entre 1 a 42 referente a data que esta no argumento
+	
+	/*MONTH*/
+	*EXTRAI O MES DE UMA DATA RETORNA DE 1 A 12
+	SELECT MONTH((coluna da tabela)) FROM (nome da tabela);
+
+EX:	SELECT MONTH(data_atualizacao) FROM projetos;
+	aqui me retorna o mes entre 1 A 12 referente a data que esta no argumento
+	
+	/*YEAR*/
+	*EXTRAI O ANO DE UMA DATA
+	SELECT YEAR((coluna da tabela)) FROM (nome da tabela);
+
+EX:	SELECT YEAR(data_atualizacao) FROM projetos;
+	aqui me retorna o ano da data que esta no argumento
+	
+						
+							
+								/*TIPOS DE RELACIONAMENTOS*/
+								
+	
+	/*One to One*/(um para um)
+	*QUANDO UMA TABELA POSSUI CONEXÃO COM OUTRA
+	
+	/*One to Many*/(um para muitos)
+	*QUANDO UMA TABELA POSSUI DIVERSOS REGISTROS EM OUTRA, POREM A SEGUNDA SÓ PODE POSSUIR UMA CONEXÃO
+	
+	/*Many to Many*/(muitos para muitos)
+	*QUANDO DUAS TABELAS PODEN TER CONEXÕES COM DIVERSOS REGISTROS ENTRE ELAS
+	
+	
+	
+	# Adiciona todas as permissoes no grupo do gerente
+insert into grupo_permissao (grupo_id, permissao_id)
+select 1, id from permissao;
+
+# Adiciona permissoes no grupo do vendedor
+insert into grupo_permissao (grupo_id, permissao_id)
+select 2, id from permissao where nome like 'CONSULTAR_%';
+
+insert into grupo_permissao (grupo_id, permissao_id) values (2, 14);
+
+# Adiciona permissoes no grupo do auxiliar
+insert into grupo_permissao (grupo_id, permissao_id)
+select 3, id from permissao where nome like 'CONSULTAR_%';
+
+# Adiciona permissoes no grupo cadastrador
+insert into grupo_permissao (grupo_id, permissao_id)
+select 4, id from permissao where nome like '%_RESTAURANTES' or nome like '%_PRODUTOS';
+	
+	
+	
+	
+	
+	
+	
+
+
+
